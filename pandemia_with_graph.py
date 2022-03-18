@@ -12,7 +12,7 @@ class person():
 
 days_until_healed = 14
 time_to_spread = 3
-initial_prob = 0.4
+initial_prob = 0.3
 total_days = []
 print(total_days)
 
@@ -22,7 +22,8 @@ def draw():
     axes_1.set_ylabel('Number of infected people in the classroom')
     axes_1.set_xlabel('Days')
     axes_1.plot( total_days, infected, label='Infected',color = 'red')
-    
+    axes_1.plot( total_days, recovered, label='Recovered',color = 'blue')
+    leg = axes_1.legend()
     plt.show()
 
 # Imprimindo o estado de cada pessoa da sala
@@ -37,7 +38,7 @@ def printgrid():
     print()
 
 # Criando a sala
-grid = [[person('S', 0, 1) for i in range(500)] for j in range(500)] 
+grid = [[person('S', 0, 1) for i in range(100)] for j in range(100)] 
 
 
 # Populando a sala
@@ -53,12 +54,17 @@ for i in range(5):
     grid[x][y].state = 'G'
 
 print("Dia Zero")
-nearby = []
 
+
+days = 0
+nearby = []
+n_infected = 1
+n_recovered = 0
+recovered = []
 infected = []
 healthy = []
 
-for days in range(500):
+while (n_infected != 0):
     n_infected = 0
     n_healthy = 0
     # Correr cada lugar da sala e ver se ta contaminado
@@ -91,14 +97,16 @@ for days in range(500):
                     grid[x][y].state = 'S'
                     grid[x][y].days = 0
                     grid[x][y].immunity += 1
-    
+                    if grid[x][y].immunity == 3:
+                      grid[x][y].state = 'R'
+                      n_recovered+=1
+    recovered.append(n_recovered)
+    print(n_infected)
+    days += 1               
     total_days.append(days + 1)
     
-    infected.append(n_infected)
+    infected.append(n_infected - 1)
     
     healthy.append(n_healthy)
     
-
-print(infected)
-print(healthy)
 draw()
