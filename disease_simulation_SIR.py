@@ -59,13 +59,16 @@ days = 0
 # Criando a sala
 def create_room():
     for x in range(total_people):
+                                      #size of the square
         random_x = np.random.uniform(0,total_people*0.15)
         random_y = np.random.uniform(0,total_people*0.15)
-        if x % 25 == 0:
+        if x % int(7000*0.1) == 0:
+            #creating infected people
             infected_people.append(person('G', 0, 1, random_x ,random_y,x))
         else:
             healthy_people.append(person('S', 0, 1, random_x ,random_y,x))
 
+    # sorting healthy and infected people based on their X position
     sorted(healthy_people, key=lambda x: x.location_x)
     sorted(infected_people, key=lambda x: x.location_x)
 
@@ -88,19 +91,20 @@ def healing():
                 i.state = 'R'
                 n_recovered += 1
                 healthy_people.remove(i)
-
+    
+    # appending for graph creation purposes
     recovered.append(n_recovered)
     days += 1              
     total_days.append(days)
-
     infected.append(len(infected_people))
     healthy.append(len(healthy_people))
+    # sorting 
     sorted(healthy_people, key=lambda x: x.location_x)
     sorted(infected_people, key=lambda x: x.location_x)
 
 def infecting():
     while (len(infected_people) != 0):
-    # Correr cada lugar da sala e ver se ta contaminado
+    # Go through each of the infected people and try to infected people nearby
         for x in infected_people:
             infection_circle = x.location_x - radius
             if x.days >= time_to_spread:
