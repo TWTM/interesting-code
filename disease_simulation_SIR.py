@@ -5,11 +5,11 @@ import time
 tempo = time.time()
 
 # Changeable Parameters
-total_people = 1000
+total_people = 2000
 radius = 8
 days_until_healed = 6
 time_to_spread = 3
-initial_prob = 0.15
+initial_prob = 0.2
 
 # Used to draw the graph
 n_infected = 0
@@ -57,13 +57,13 @@ def printgrid():
     for i in range(3):
         if i == 0:
             plt.scatter(healthy_x, healthy_y, color = 'green', s = 3)
-            plt.pause(1)
+            plt.pause(0.0001)
         elif i == 1:
             plt.scatter(infected_x, infected_y, color = 'red', s = 3)
-            plt.pause(1)
+            plt.pause(0.0001)
         else:
             plt.scatter(recovered_x, recovered_y, color = 'blue', s = 3)
-            plt.pause(0.2)
+            plt.pause(0.0001)
     plt.title(days)
     plt.xlabel(len(infected_people))
 
@@ -85,7 +85,7 @@ def create_room():
     for x in range(total_people):
         random_x = np.random.uniform(0,total_people*0.1)
         random_y = np.random.uniform(0,total_people*0.1)
-        if x % 10 == 0:
+        if x % 100 == 0:
             infected_people.append(person('G', 0, 1, random_x ,random_y,x))
             continue    
         healthy_people.append(person('S', 0, 1, random_x ,random_y,x))
@@ -107,8 +107,8 @@ def healing():
             i.immunity += 1
             infected_people.remove(i)
             healthy_people.append(i)
-            # if he has been infected 3 times he now is categorized as immune and cant be infected again
-            if i.immunity == 3:
+            # if he has been infected 4 times he now is categorized as immune and cant be infected again
+            if i.immunity == 4:
                 i.state = 'R'
                 n_recovered += 1
                 healthy_people.remove(i)
@@ -149,8 +149,6 @@ def infecting():
                             break
         healing()
         
-       
-        
 def main():
     create_room()
     infecting()
@@ -159,4 +157,3 @@ def main():
     print(time.time() - tempo)
 
 main()
-
