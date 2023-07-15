@@ -119,8 +119,8 @@ def gamma_distribution(mean, std_dev):
 
 def weibull_distribution(mean, std_dev):
     # Calculate the shape and scale parameters of the Weibull distribution
-    shape = round(mean / std_dev**2)
-    scale = round(std_dev**2)
+    shape = mean / std_dev**2
+    scale = std_dev**2
 
     # Generate a random sample from the Weibull distribution
     sample = np.random.weibull(shape, scale)
